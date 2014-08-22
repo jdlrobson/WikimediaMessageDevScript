@@ -17,11 +17,11 @@ except IndexError:
 def check_messages():
     for key in json_object_en:
         if key not in json_object_qqq:
-            print "Message missing for key `%s`"% key
+            print("Message missing for key `%s`"% key)
 
     for key in json_object_qqq:
         if key not in json_object_en:
-            print "Key `%s` is present in qqq but has no English translation."% key
+            print("Key `%s` is present in qqq but has no English translation."% key)
 
 def add_message():
     key = input("Choose a message key e.g. `mobile-frontend-xxx`:\n")
