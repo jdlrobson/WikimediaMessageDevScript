@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 import json
 import sys
+import collections
 
 json_file = open( 'i18n/en.json' )
-json_object_en = json.loads(json_file.read())
+json_object_en = json.loads(json_file.read(), object_pairs_hook=collections.OrderedDict)
 json_file.close()
 json_file = open( 'i18n/qqq.json' )
-json_object_qqq = json.loads(json_file.read())
+json_object_qqq = json.loads(json_file.read(), object_pairs_hook=collections.OrderedDict)
 json_file.close()
 
 try:
@@ -65,13 +66,13 @@ def add_message():
 
         print("Saving English message...")
         json_file = open( 'i18n/en.json', 'w' )
-        json_file.writelines(json.dumps(json_object_en, sort_keys=True, ensure_ascii=False, indent='\t', separators=(',',': ')))
+        json_file.writelines(json.dumps(json_object_en, ensure_ascii=False, indent='\t', separators=(',',': ')))
         json_file.writelines('\n')
         json_file.close()
 
         print("Saving qqq message...")
         json_file = open( 'i18n/qqq.json', 'w' )
-        json_file.writelines(json.dumps(json_object_qqq, sort_keys=True, ensure_ascii=False, indent='\t', separators=(',',': ')))
+        json_file.writelines(json.dumps(json_object_qqq, ensure_ascii=False, indent='\t', separators=(',',': ')))
         json_file.writelines('\n')
         json_file.close()
 
