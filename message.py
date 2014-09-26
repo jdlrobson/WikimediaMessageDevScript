@@ -65,7 +65,7 @@ def add_message():
 
         print("Saving English message...")
         json_file = open( 'i18n/en.json', 'w' )
-        json_file.writelines(json.dumps(json_object_en, sort_keys=True, ensure_ascii=False, indent=4, separators=(',',': ')))
+        json_file.writelines(json.dumps(json_object_en, sort_keys=True, ensure_ascii=False, indent='\t', separators=(',',': ')))
         json_file.writelines('\n')
         json_file.close()
 
