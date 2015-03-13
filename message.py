@@ -1,14 +1,21 @@
 #!/usr/bin/python3
+
+# TODO: This could use https://www.npmjs.com/package/grunt-banana-checker for the check part.
+
 import json
 import sys
 import collections
 
-json_file = open( 'i18n/en.json' )
-json_object_en = json.loads(json_file.read(), object_pairs_hook=collections.OrderedDict)
-json_file.close()
-json_file = open( 'i18n/qqq.json' )
-json_object_qqq = json.loads(json_file.read(), object_pairs_hook=collections.OrderedDict)
-json_file.close()
+def read_i18n_file( file_name ):
+    try:
+        with open( file_name ) as f:
+            return json.load( f, object_pairs_hook=collections.OrderedDict)
+    except:
+        print( "Failed to decode %s:" % file_name )
+        raise
+
+json_object_en = read_i18n_file( 'i18n/en.json' )
+json_object_qqq = read_i18n_file( 'i18n/qqq.json' )
 
 try:
     action = sys.argv[1]
@@ -16,13 +23,19 @@ except IndexError:
     action = 'add'
 
 def check_messages():
+    missing_messages = False
     for key in json_object_en:
         if key not in json_object_qqq:
-            print("Message missing for key `%s`"% key)
+            print("qqq description missing for key `%s`"% key)
+            missing_messages = True
 
     for key in json_object_qqq:
         if key not in json_object_en:
             print("Key `%s` is present in qqq but has no English translation."% key)
+            missing_messages = True
+
+    if missing_messages:
+        sys.exit(1)
 
 def add_message():
     key = input("Choose a message key e.g. `mobile-frontend-xxx`:\n")
